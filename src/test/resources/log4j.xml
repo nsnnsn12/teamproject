@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<!-- 실제 로그를 출력 설정 appender name은 로그를 어디에 출력할 지 설정, 어떤 클래스를 사용하는지 -->
+	<!-- Target은 어떤 메소드를 사용할 지 -->
+	<!-- 어떤 레이아웃으로 출력할지를 설정 -->
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p: %c.%M() - %m%n" />
+		</layout>
+	</appender>
+
+	<!-- name은 로그 레벨을 적용할 패키지 (설정 해당 패키지의 하위 경로에 다 적용), level value는 로그의 레벨을 설정 -->
+	<logger name="com.mycompany">
+		<level value="info" />
+	</logger>	
+
+	<!-- sql 로그 레벨 설정 -->
+	<logger name = "jdbc.sqltiming">
+		<level value="info"></level>
+	</logger>
+	<!-- 로그 레벨을 설정하지 않을 때의 default 값 -->
+	<root>
+		<priority value="warn" />
+		<appender-ref ref="console" />
+	</root>
+	
+	
+</log4j:configuration>
+
