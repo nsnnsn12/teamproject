@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" 
+	id="WebApp_ID" 
+	version="4.0"
+>
+
+	<!-- listener 이벤트 처리를 위한 태그 -->
+	<!-- listener-class는 처리할 이벤트에 맞는 이벤트 리스너 구현 객체를 먼저 메모리에 올려놓고 해당 이벤트 발생 시 구현객체 작동 -->
+	<!-- ContextLoaderListener클래스는 어떤 이벤트 리스너를 구현한 것인가? ServletContextListener를 구현 -->
+	<!-- ServletContextListener는 웹어플리케이션의 시작, 종료 이벤트에 대한 이벤트 리스너입니다. -->
+	<!-- ContextLoaderListener객체는 무엇을 하는가? root WebApplicationContext객체를 생성 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- root_WepApplicationContext객체를 생성할 때 매개변수로 설정파일을 전달 -->
+	<!-- classpath는 class루트를 뜻하므로 src/main/java 혹은 scr/main/resources를 뜻한다. -->
+	<!-- param-name에 contextConfigLocation는 root_WepApplicationContext가 매개변수로 받을 정해진 이름이므로 절대 틀리면 안 됨 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:spring/root/*.xml</param-value>
+	</context-param>
+	
+	<!-- 서블릿을 등록하는 방법은 총 두가지 1.어노테이션을 이용한 방법 2.web.xml설정을 이용한 방법 -->
+	<!-- dispatcherServlet은 우리가 작성한 클래스가 아니기 때문에 어노테이션을 이용해서만 서블릿을 등록할 수 있다. -->
+	<!-- 여러개의 xml 파일을 받기 위해 *.xml로 설정 -->
+	<servlet>
+		<servlet-name>DispatcherServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring/dispatcher/*.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>DispatcherServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	
+	<!-- 문자 인코딩을 위한 필터 등록 -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/views/ch10/error404.jsp</location>
+	</error-page>
+	
+</web-app>
